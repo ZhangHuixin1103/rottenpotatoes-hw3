@@ -9,22 +9,22 @@ RSpec.describe MoviesController, type: :controller do
     end
 
     # TODO(student): add more movies to use for testing
-    if Movie.where(title: 'Sully').empty?
-      Movie.create(title: 'Sully',
+    if Movie.where(title: 'Avatar').empty?
+      Movie.create(title: 'Avatar',
                    rating: 'PG-13',
-                   release_date: '2016-11-02')
+                   release_date: '2009-12-18')
     end
-    if Movie.where(title: 'Inception').empty?
-      Movie.create(title: 'Inception',
-                   director: 'Christopher Nolan',
-                   rating: 'PG-13',
-                   release_date: '2016-11-02')
+    if Movie.where(title: 'Terminator').empty?
+      Movie.create(title: 'Terminator',
+                   director: 'James Cameron',
+                   rating: 'R',
+                   release_date: '1984-10-26')
     end
-    if Movie.where(title: 'Interstellar').empty?
-      Movie.create(title: 'Interstellar',
-                   director: 'Christopher Nolan',
+    if Movie.where(title: 'Titanic').empty?
+      Movie.create(title: 'Titanic',
+                   director: 'James Cameron',
                    rating: 'PG-13',
-                   release_date: '2016-11-02')
+                   release_date: '1997-12-19')
     end
 
   end
@@ -32,11 +32,13 @@ RSpec.describe MoviesController, type: :controller do
   describe 'when trying to find movies by the same director' do
     it 'returns a valid collection when a valid director is present' do
       # TODO(student): implement this test
-      movie = Movie.find_by(title: 'Inception')
-      get :show_by_director, params: { id: movie.id }
+      movie1 = Movie.find_by(title: 'Terminator')
+      movie2 = Movie.find_by(title: 'Titanic')
+      movie3 = Movie.find_by(title: 'Avatar')
+      get :show_by_director, params: { id: movie1.id }
       expect(assigns(:movies)).to be_a_kind_of(Enumerable)
-      expect(assigns(:movies)).to include(Movie.find_by(title: 'Interstellar'))
-      expect(assigns(:movies)).not_to include(Movie.find_by(title: 'Sully'))
+      expect(assigns(:movies)).to include(movie2)
+      expect(assigns(:movies)).not_to include(movie3)
     end
 
     it 'redirects to index with a warning when no director is present' do
@@ -50,34 +52,33 @@ RSpec.describe MoviesController, type: :controller do
 
   describe 'creates' do
     it 'movies with valid parameters' do
-      get :create, params: { movie: { title: 'Toucan Play This Game', director: 'Armando Fox',
-                                      rating: 'G', release_date: '2017-07-20' } }
+      get :create, params: { movie: { title: 'Ready Player One', director: 'Steven Spielberg',
+                                      rating: 'PG-13', release_date: '2018-3-29' } }
       expect(response).to redirect_to movies_path
-      expect(flash[:notice]).to match(/Toucan Play This Game was successfully created./)
-      Movie.find_by(title: 'Toucan Play This Game').destroy
+      expect(flash[:notice]).to match(/Ready Player One was successfully created./)
+      Movie.find_by(title: 'Ready Player One').destroy
     end
   end
 
   describe 'updates' do
     it 'redirects to the movie details page and flashes a notice' do
-      movie = Movie.create(title: 'Outfoxed!', director: 'Nick Mecklenburg',
-                           rating: 'PG-13', release_date: '2023-12-17')
-      get :update, params: { id: movie.id, movie: { description: 'Critics rave about this epic new thriller. Watch as main characters Armando Fox ' \
-                                                                 'and Michael Ball, alongside their team of TAs, battle against the challenges of ' \
-                                                                 'a COVID-19-induced virtual semester, a labyrinthian and disconnected assignment ' \
-                                                                 'stack, and the ultimate betrayal from their once-trusted ally: Codio exams.' } }
+      movie = Movie.create(title: 'Ready Player One', director: 'Steven Spielberg',
+                           rating: 'PG-13', release_date: '2018-3-29')
+      get :update, params: { id: movie.id, movie: { description: 'Ready Player One is a sweetly nostalgic thrill ride ' \
+                                                                 'that neatly encapsulates Spielbergs strengths while ' \
+                                                                 'adding another solidly engrossing adventure to his filmography.' } }
 
       expect(response).to redirect_to movie_path(movie)
-      expect(flash[:notice]).to match(/Outfoxed! was successfully updated./)
+      expect(flash[:notice]).to match(/Ready Player One was successfully updated./)
       movie.destroy
     end
 
     it 'actually does the update' do
-      movie = Movie.create(title: 'Outfoxed!', director: 'Nick Mecklenburg',
-                           rating: 'PG-13', release_date: '2023-12-17')
-      get :update, params: { id: movie.id, movie: { director: 'Not Nick!' } }
+      movie = Movie.create(title: 'Ready Player One', director: 'Steven Spielberg',
+                           rating: 'PG-13', release_date: '2018-3-29')
+      get :update, params: { id: movie.id, movie: { director: 'Not Steven' } }
 
-      expect(assigns(:movie).director).to eq('Not Nick!')
+      expect(assigns(:movie).director).to eq('Not Steven')
       movie.destroy
     end
   end
