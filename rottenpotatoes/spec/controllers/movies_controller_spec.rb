@@ -52,11 +52,11 @@ RSpec.describe MoviesController, type: :controller do
 
   describe 'creates' do
     it 'movies with valid parameters' do
-      get :create, params: { movie: { title: 'Ready Player One', director: 'Steven Spielberg',
-                                      rating: 'PG-13', release_date: '2018-3-29' } }
+      get :create, params: { movie: { title: 'Cloud Atlas', director: 'Lana Wachowski',
+                                      rating: 'R', release_date: '2012-10-26' } }
       expect(response).to redirect_to movies_path
-      expect(flash[:notice]).to match(/Ready Player One was successfully created./)
-      Movie.find_by(title: 'Ready Player One').destroy
+      expect(flash[:notice]).to match(/Cloud Atlas was successfully created./)
+      Movie.find_by(title: 'Cloud Atlas').destroy
     end
   end
 
