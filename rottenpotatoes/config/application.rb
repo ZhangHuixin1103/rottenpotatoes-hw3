@@ -50,6 +50,7 @@ module Rottenpotatoes
     # Enable escaping HTML in JSON.
 
     config.active_support.escape_html_entities_in_json = true
+    config.active_support.remove_deprecated_time_with_zone_name = true
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
@@ -64,6 +65,8 @@ module Rottenpotatoes
 
     # Fix for Heroku deploy
     config.assets.initialize_on_precompile = false
+
+    config.active_support.remove_deprecated_time_with_zone_name = true
 
   end
 end
