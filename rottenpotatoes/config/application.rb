@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Adding top level documentation as instructed by rubocop. Defining Application class here
 require File.expand_path('boot', __dir__)
 
 # # Pick the frameworks you want:
