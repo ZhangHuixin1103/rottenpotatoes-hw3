@@ -16,13 +16,11 @@ class MoviesController < ApplicationController
   def show_by_director
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
-    if @movie.director.blank?
+    @movies = @movie.others_by_same_director
+    @director = @movie.director
+    return unless @movies == 'director miss'
       flash[:warning] = "'#{@movie.title}' has no director info."
       redirect_to movies_path
-    else
-      @movies = @movie.others_by_same_director
-      @director = @movie.director
-    end
   end
 
   def create
