@@ -17,9 +17,8 @@ class MoviesController < ApplicationController
   def same_director
     id = params[:id]
     movie_title = Movie.find(id).title
-    @movies = Movie.by_same_director(id)
+    @movies = Movie.other_same_director(id)
     return unless @movies == 'director miss' || @movies.nil?
-
     flash[:warning] = "'#{movie_title}' has no director info."
     redirect_to movies_path
   end
