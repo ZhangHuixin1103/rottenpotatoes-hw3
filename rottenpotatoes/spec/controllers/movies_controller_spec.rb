@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe MoviesController, type: :controller do
@@ -26,7 +28,6 @@ RSpec.describe MoviesController, type: :controller do
                    rating: 'PG-13',
                    release_date: '1997-12-19')
     end
-
   end
 
   describe 'when trying to find movies by the same director' do
@@ -64,9 +65,10 @@ RSpec.describe MoviesController, type: :controller do
     it 'redirects to the movie details page and flashes a notice' do
       movie = Movie.create(title: 'Ready Player One', director: 'Steven Spielberg',
                            rating: 'PG-13', release_date: '2018-3-29')
-      get :update, params: { id: movie.id, movie: { description: 'Ready Player One is a sweetly nostalgic thrill ride ' \
-                                                                 'that neatly encapsulates Spielbergs strengths while ' \
-                                                                 'adding another solidly engrossing adventure to his filmography.' } }
+      get :update, params: { id: movie.id, movie: {
+        description: 'Ready Player One is a sweetly nostalgic thrill ride ' \
+                     'that neatly encapsulates Spielbergs strengths while ' \
+                     'adding another solidly engrossing adventure to his filmography.' } }
 
       expect(response).to redirect_to movie_path(movie)
       expect(flash[:notice]).to match(/Ready Player One was successfully updated./)

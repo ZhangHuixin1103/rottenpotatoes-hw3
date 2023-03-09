@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
@@ -26,7 +28,6 @@ RSpec.describe Movie, type: :model do
                              rating: 'PG-13',
                              release_date: '1997-12-19')
     end
-
   end
 
   describe 'others_by_same_director method' do

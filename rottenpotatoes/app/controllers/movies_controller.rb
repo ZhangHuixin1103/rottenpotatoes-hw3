@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# top-level
 class MoviesController < ApplicationController
   def show
     id = params[:id] # retrieve movie ID from URI route
@@ -16,9 +19,12 @@ class MoviesController < ApplicationController
   def show_by_director
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
+
     @movies = @movie.others_by_same_director
     @director = @movie.director
+
     return unless @movies == 'director miss'
+
       flash[:warning] = "'#{@movie.title}' has no director info."
       redirect_to movies_path
   end

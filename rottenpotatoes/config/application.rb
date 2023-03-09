@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('boot', __dir__)
 
 # # Pick the frameworks you want:
@@ -12,6 +14,7 @@ require 'rails/all'
 Bundler.require(:default, Rails.env)
 
 module Rottenpotatoes
+  # top-level
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
