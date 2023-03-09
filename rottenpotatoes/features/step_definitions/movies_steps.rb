@@ -23,3 +23,31 @@ Then /I should see all the movies/ do
     step %{I should see "#{movie.title}"}
   end
 end
+
+When('I go to the edit page for {string}') do |movie|
+  movie = Movie.find_by title: movie
+  visit edit_movie_path(movie)
+end
+
+When('I go to the new page') do
+  visit new_movie_path
+end
+
+Then('the director of {string} should be {string}') do |movie, name|
+  expect(page).to have_content("Details about #{movie}")
+  expect(page).to have_content("Director: #{name}")
+end
+
+Given('I am on the details page for {string}') do |movie_name|
+  movie = Movie.find_by title: movie_name
+  visit movie_path(movie)
+end
+
+Then('I should be on the Similar Movies page for {string}') do |movie_title|
+  movie = Movie.find_by title: movie_title
+  expect(page).to have_current_path(same_director_path(movie))
+end
+
+Then('I should be on the home page') do
+  expect(page).to have_current_path(movies_path)
+end
