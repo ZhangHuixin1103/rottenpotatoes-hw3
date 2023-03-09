@@ -23,41 +23,35 @@ Then(/I should see all the movies/) do
   end
 end
 
-Then(/the director of "(.*)" should be "(.*)"/) do |movie_title, movie_director|
-  expect(Movie.find_by(title: movie_title).director).to eq movie_director
-end
-
 When('I go to the edit page for {string}') do |movie_name|
   movie = Movie.find_by(title: movie_name)
   visit edit_movie_path(movie)
 end
-
 When('I fill in {string} with {string}') do |movie_name, name|
   fill_in(movie_name, with: name)
 end
-
 When('I press {string}') do |button|
   click_button(button)
+end
+Then(/the director of "(.*)" should be "(.*)"/) do |movie_title, movie_director|
+  expect(Movie.find_by(title: movie_title).director).to eq movie_director
 end
 
 Given(/I am on the details page for "(.*)"/) do |movie_name|
   movie = Movie.find_by(title: movie_name)
   visit movie_path(movie)
 end
-
 When('I follow {string}') do |my_link|
   click_link(my_link)
 end
-
 Then('I should be on the Similar Movies page for {string}') do |string|
   expect(show_by_director_path(Movie.find_by(title: string))).to eq current_path
 end
-
-Then('I should not see {string}') do |name|
-  expect(page).not_to have_content(name)
-end
 Then('I should see {string}') do |name|
   expect(page).to have_content(name)
+end
+Then('I should not see {string}') do |name|
+  expect(page).not_to have_content(name)
 end
 
 Then('I should be on the home page') do
